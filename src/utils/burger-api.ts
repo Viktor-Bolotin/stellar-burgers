@@ -1,5 +1,5 @@
 import { setCookie, getCookie } from './cookie';
-import { TIngredient, TOrder, TUser } from './types';
+import { TIngredient, TOrder, TOrdersData, TUser } from './types';
 
 const URL = process.env.BURGER_API_URL;
 
@@ -75,9 +75,7 @@ export const getIngredientsApi = () =>
   fetch(`${URL}/ingredients`)
     .then((res) => checkResponse<TIngredientsResponse>(res))
     .then((data) => {
-      if (data?.success) {
-        return data.data;
-      }
+      if (data?.success) return data.data;
       return Promise.reject(data);
     });
 
@@ -145,7 +143,6 @@ type TAuthResponse = TServerResponse<{
   user: TUser;
 }>;
 
-// Регистрация и авторизация
 export const registerUserApi = (data: TRegisterData) =>
   fetch(`${URL}/auth/register`, {
     method: 'POST',
