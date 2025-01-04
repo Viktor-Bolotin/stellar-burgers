@@ -1,11 +1,9 @@
 import { getIngredientsApi, orderBurgerApi } from '@api';
-import {
-  createAsyncThunk,
-  createSlice,
-  nanoid,
-  PayloadAction
-} from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { find } from '@reduxjs/toolkit/dist/utils';
 import { TIngredient } from '@utils-types';
+import { stat } from 'fs';
+import { act } from 'react-dom/test-utils';
 
 type TBasket = {
   bun?: TIngredient;
@@ -30,26 +28,22 @@ const initialState: TIngredientsState = {
   }
 };
 
-export const getIngredients = createAsyncThunk(
-  'ingredients/getAll',
-  getIngredientsApi
+export const getIngredients = createAsyncThunk('ingredients/getAll', async () =>
+  getIngredientsApi()
 );
 
 const burgerIngredientsSlice = createSlice({
   name: 'ingredients',
   initialState,
   reducers: {
-    addIngredient: {
-      reducer: (state, action: PayloadAction<TIngredient>) => {
-        if (action.payload.type === 'bun') {
-          state.basket.bun = action.payload;
-        } else {
-          state.basket.ingredients.push(action.payload);
-        }
-      },
-      prepare: (ingredient: TIngredient) => ({
-        payload: { ...ingredient, id: nanoid() }
-      })
+    addIngredient: (state, action) => {
+      if (action.payload.type === 'bun') {
+        state.basket.bun = action.payload;
+      } else {
+        state.basket.ingredients.push(action.payload);
+      }
+
+      localStorage.setItem('basket', JSON.stringify(state.basket));
     },
     removeIngredient: (state, action) => {
       if (action.payload.type === 'bun') {
