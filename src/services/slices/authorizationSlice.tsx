@@ -13,26 +13,16 @@ import { TUser } from '@utils-types';
 
 export const registerUser = createAsyncThunk(
   'user/registration',
-  async (data: TRegisterData) => registerUserApi(data)
+  registerUserApi
 );
 
-export const loginUser = createAsyncThunk(
-  'user/login',
-  async (data: TLoginData) => loginUserApi(data)
-);
+export const loginUser = createAsyncThunk('user/login', loginUserApi);
 
-export const getUser = createAsyncThunk('user/getData', async () =>
-  getUserApi()
-);
+export const updateUser = createAsyncThunk('user/upData', updateUserApi);
 
-export const updateUser = createAsyncThunk(
-  'user/upData',
-  async (data: TRegisterData) => updateUserApi(data)
-);
+export const getUser = createAsyncThunk('user/getData', getUserApi);
 
-export const logoutUser = createAsyncThunk('user/logout', async () =>
-  logoutApi()
-);
+export const logoutUser = createAsyncThunk('user/logout', logoutApi);
 
 type TInitialState = {
   isAuthChecked: boolean;

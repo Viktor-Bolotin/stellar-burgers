@@ -29,7 +29,6 @@ const App = () => {
   useEffect(() => {
     dispatch(getUser());
     dispatch(getIngredients());
-    dispatch(getFeeds());
   }, []);
 
   const backgroundLocation = location.state?.background;
@@ -40,36 +39,36 @@ const App = () => {
   return (
     <div className={styles.app}>
       <AppHeader />
-      <Routes>
-        <Route
-          path='/ingredients/:id'
-          element={
-            <Modal title='Детали ингредиента' onClose={closeModal}>
-              <IngredientDetails />
-            </Modal>
-          }
-        />
-      </Routes>
-      <Routes>
-        <Route
-          path='/feed/:number'
-          element={
-            <Modal title='Детали заказа' onClose={closeModal}>
-              <OrderInfo />
-            </Modal>
-          }
-        />
-        <Route
-          path='/profile/orders/:number'
-          element={
-            <ProtectedRoute>
+      {backgroundLocation && (
+        <Routes>
+          <Route
+            path='/ingredients/:id'
+            element={
+              <Modal title='Детали ингредиента' onClose={closeModal}>
+                <IngredientDetails />
+              </Modal>
+            }
+          />
+          <Route
+            path='/feed/:number'
+            element={
               <Modal title='Детали заказа' onClose={closeModal}>
                 <OrderInfo />
               </Modal>
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
+            }
+          />
+          <Route
+            path='/profile/orders/:number'
+            element={
+              <ProtectedRoute>
+                <Modal title='Детали заказа' onClose={closeModal}>
+                  <OrderInfo />
+                </Modal>
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      )}
 
       <Routes location={backgroundLocation || location}>
         <Route path='/' element={<ConstructorPage />} />
