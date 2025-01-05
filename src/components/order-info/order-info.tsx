@@ -1,20 +1,41 @@
-import { FC, useMemo } from 'react';
+import { FC, useEffect, useMemo } from 'react';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
-import { useSelector } from '../../services/store';
+import { useDispatch, useSelector } from '../../services/store';
 import { getIngredientsSelector } from '../../services/slices/burgerIngredientsSlice';
 import { useParams } from 'react-router-dom';
-import { getFeedsSelector } from '../../services/slices/feedSlice';
+import { getFeeds, getFeedsSelector } from '../../services/slices/feedSlice';
+import { getOrders, orderSelector } from '../../services/slices/orderSlice';
 
 export const OrderInfo: FC = () => {
   const { ingredients } = useSelector(getIngredientsSelector);
   const { orders } = useSelector(getFeedsSelector).feeds;
+  const { orderList } = useSelector(orderSelector);
   const params = useParams();
+  const dispatch = useDispatch();
 
-  const orderData = orders.find(
-    (order) => order.number == Number(params.number)
+  useEffect(() => {
+    dispatch(getFeeds());
+    dispatch(getOrders());
+  }, []);
+
+  const concatOrders = useMemo(
+    () =>
+      orders
+        .concat(orderList)
+        .filter(
+          (order) =>
+            orders.indexOf(order) === -1 || orderList.indexOf(order) === -1
+        ),
+    [orders, orderList]
   );
+
+  const orderData = useMemo(
+    () => concatOrders.find((order) => order.number == Number(params.number)),
+    [concatOrders, params]
+  );
+
   /* Готовим данные для отображения */
   const orderInfo = useMemo(() => {
     if (!orderData || !ingredients.length) return null;

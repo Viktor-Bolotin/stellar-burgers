@@ -34,7 +34,7 @@ export const BurgerConstructor: FC = () => {
       (ingredient) => ingredient._id
     );
     orderData.unshift(constructorItems.bun._id);
-    orderData.push(constructorItems.bun._id);
+    orderData.unshift(constructorItems.bun._id);
     dispatch(makeOrder(orderData));
   };
 
