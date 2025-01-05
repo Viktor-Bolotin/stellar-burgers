@@ -1,11 +1,10 @@
 import { FC, SyntheticEvent, useState } from 'react';
 import { LoginUI } from '@ui-pages';
-import { useDispatch } from '../../services/store';
+import { useDispatch, useSelector } from '../../services/store';
 import {
   authorizationSelector,
   loginUser
 } from '../../services/slices/authorizationSlice';
-import { useSelector } from 'react-redux';
 
 export const Login: FC = () => {
   const [email, setEmail] = useState('');
