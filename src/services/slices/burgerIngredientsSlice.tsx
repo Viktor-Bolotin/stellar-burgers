@@ -1,4 +1,4 @@
-import { getIngredientsApi, orderBurgerApi } from '@api';
+import { getIngredientsApi, orderBurgerApi } from '../../utils/burger-api';
 import {
   createAsyncThunk,
   createSlice,
@@ -7,23 +7,23 @@ import {
 } from '@reduxjs/toolkit';
 import { TIngredient } from '@utils-types';
 
-type TBasket = {
+export type TBasket = {
   bun?: TIngredient;
   ingredients: TIngredient[];
   sum: number;
 };
 
-type TIngredientsState = {
+export type TInitialIngredientsState = {
   ingredients: TIngredient[];
   isIngredientsLoading: boolean;
-  error: string | null;
+  ingredientsError: string | null;
   basket: TBasket;
 };
 
-const initialState: TIngredientsState = {
+const initialState: TInitialIngredientsState = {
   ingredients: [],
   isIngredientsLoading: false,
-  error: null,
+  ingredientsError: null,
   basket: {
     ingredients: [],
     sum: 0
@@ -95,17 +95,17 @@ const burgerIngredientsSlice = createSlice({
     builder
       .addCase(getIngredients.pending, (state) => {
         state.isIngredientsLoading = true;
-        state.error = null;
+        state.ingredientsError = null;
       })
       .addCase(getIngredients.rejected, (state, action) => {
         state.isIngredientsLoading = false;
         if (action.error.message) {
-          state.error = action.error.message;
+          state.ingredientsError = action.error.message;
         }
       })
       .addCase(getIngredients.fulfilled, (state, action) => {
         state.isIngredientsLoading = false;
-        state.error = null;
+        state.ingredientsError = null;
         state.ingredients = action.payload;
       });
   }

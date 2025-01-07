@@ -3,17 +3,16 @@ import {
   loginUserApi,
   logoutApi,
   registerUserApi,
-  TLoginData,
   TRegisterData,
   updateUserApi
-} from '@api';
+} from '../../utils/burger-api';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { deleteCookie, setCookie } from '../../utils/cookie';
 import { TUser } from '@utils-types';
 
 export const registerUser = createAsyncThunk(
   'user/registration',
-  registerUserApi
+  async (data: TRegisterData) => registerUserApi(data)
 );
 
 export const loginUser = createAsyncThunk('user/login', loginUserApi);
@@ -24,14 +23,14 @@ export const getUser = createAsyncThunk('user/getData', getUserApi);
 
 export const logoutUser = createAsyncThunk('user/logout', logoutApi);
 
-type TInitialState = {
+export type TAutorizationInitialState = {
   isAuthChecked: boolean;
   isAuthenticated: boolean;
   user: TUser;
   loginUserError: string | null;
 };
 
-const initialState: TInitialState = {
+const initialState: TAutorizationInitialState = {
   isAuthChecked: false,
   isAuthenticated: false,
   user: {
@@ -96,20 +95,19 @@ const authorizationSlice = createSlice({
         state.loginUserError = null;
       })
       .addCase(getUser.rejected, (state, action) => {
-        state.isAuthenticated = false;
         state.isAuthChecked = true;
         if (action.error.message) {
           state.loginUserError = action.error.message;
         }
       })
       .addCase(getUser.fulfilled, (state, action) => {
-        state.isAuthenticated = true;
         state.isAuthChecked = true;
+        state.isAuthenticated = true;
         state.loginUserError = null;
         state.user = action.payload.user;
       })
       .addCase(updateUser.pending, (state) => {
-        state.isAuthChecked = true;
+        state.isAuthChecked = false;
         state.loginUserError = null;
       })
       .addCase(updateUser.rejected, (state, action) => {
@@ -119,7 +117,6 @@ const authorizationSlice = createSlice({
         }
       })
       .addCase(updateUser.fulfilled, (state, action) => {
-        state.isAuthenticated = true;
         state.isAuthChecked = true;
         state.loginUserError = null;
         state.user = action.payload.user;
