@@ -22,7 +22,7 @@ describe('Проверка работы компонента Burger Constructor'
   const bunIngredientSelector = `[data-cy='Краторная булка N-200i']`
   const mainIngredientSelector = `[data-cy='Биокотлета из марсианской Магнолии']`
   const sauceIngredientSelector = `[data-cy='Соус Spicy-X']`
-
+  
   describe('Проверка функциональности ингредиентов', () => {
     
     it('Ингредиенты отображаются на странице', () => {
@@ -34,11 +34,15 @@ describe('Проверка работы компонента Burger Constructor'
     it('Ингредиенты при клике на кнопку "добавить" добавляются в конструктор', () => {
       cy.get(burgerConstructorSelector).contains('Выберите булки').should('exist')
       cy.get(burgerConstructorSelector).contains('Выберите начинку').should('exist')
+      const constructorIngredientInitialSelector = `[data-cy='constructor-ingredient']`
+      cy.get(constructorIngredientInitialSelector).should('not.exist')
 
       cy.get(bunIngredientSelector).contains('Добавить').click()
       cy.get(mainIngredientSelector).contains('Добавить').click()
       cy.get(sauceIngredientSelector).contains('Добавить').click()
 
+      const constructorIngredientSelector = `[data-cy='constructor-ingredient']`
+      cy.get(constructorIngredientSelector).should('exist')
       cy.get(burgerConstructorSelector).contains('Выберите булки').should('not.exist')
       cy.get(burgerConstructorSelector).contains('Выберите начинку').should('not.exist')
 
@@ -50,16 +54,20 @@ describe('Проверка работы компонента Burger Constructor'
     describe('Проверка функциональности модального окна',() => {
       it('При клике на элемент открывается модальное окно', () => {
         cy.get(mainIngredientSelector).click()
+
+        const modalSelector= '[data-cy=modal]'
+        cy.get(modalSelector).should('exist')
         cy.contains('Детали ингредиента').should('exist')
         cy.contains('Биокотлета из марсианской Магнолии').should('exist')
       })
 
-      it('При клике на крестик - модальное окно закрывается', () => {
+      it('При клике на кнопку закрытия - модальное окно закрывается', () => {
         cy.get(sauceIngredientSelector).click()
         const closeButtonSelector = `[data-cy='close-modal']`
-
         cy.get(closeButtonSelector).click()
-        cy.contains('Детали ингредиента').should('not.exist')
+
+        const modalSelector= '[data-cy=modal]'
+        cy.get(modalSelector).should('not.exist')
       })
     })
   })
@@ -68,8 +76,9 @@ describe('Проверка работы компонента Burger Constructor'
     describe('При попытке нажать на кнопку "Оформить заказ без добавленных булок', () => {
       it('Запрос не отправляется и, следовательно, модальное окно заказа не открывается', () => {
         cy.contains('Оформить заказ').click()
-        cy.contains('Оформляем заказ...').should('not.exist')
-        cy.contains('идентификатор заказа').should('not.exist')
+
+        const modalSelector= '[data-cy=modal]'
+        cy.get(modalSelector).should('not.exist')
       })
     })
     
@@ -81,19 +90,24 @@ describe('Проверка работы компонента Burger Constructor'
       }) 
 
       it('Запрос отправляется, и модальное окно заказа открывается', () => {
-        cy.contains('идентификатор заказа').should('exist')
+        const modalSelector= '[data-cy=modal]'
+        cy.get(modalSelector).should('exist')
+
         cy.contains('11111').should('exist')
       })
-      it('При нажатии на крестик - модальное окно заказа закрывается',() => {
+      it('При нажатии на кнопку закрытия - модальное окно заказа закрывается',() => {
         const closeButtonSelector = `[data-cy='close-modal']`
-
         cy.get(closeButtonSelector).click()
-        cy.contains('идентификатор заказа').should('not.exist')
+
+        const modalSelector= '[data-cy=modal]'
+        cy.get(modalSelector).should('not.exist')
       })
       it('При закрытии модального окна, конструктор бургера очищается',() => {
         const closeButtonSelector = `[data-cy='close-modal']`
-
         cy.get(closeButtonSelector).click()
+
+        const constructorIngredientSelector = `[data-cy='constructor-ingredient']`
+        cy.get(constructorIngredientSelector).should('not.exist')
         cy.get(burgerConstructorSelector).contains('Выберите булки').should('exist')
         cy.get(burgerConstructorSelector).contains('Выберите начинку').should('exist')
       })
