@@ -14,7 +14,7 @@ import styles from './app.module.css';
 
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-import { useDispatch } from '../../services/store';
+import { rootReducer, useDispatch } from '../../services/store';
 import { useEffect } from 'react';
 import { getUser } from '../../services/slices/authorizationSlice';
 import { ProtectedRoute } from '../../utils/protectedRoute';
