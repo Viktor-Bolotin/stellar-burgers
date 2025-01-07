@@ -46,7 +46,6 @@ const burgerIngredientsSlice = createSlice({
         } else {
           state.basket.ingredients.push(action.payload);
         }
-        console.log(state);
       },
       prepare: (ingredient: TIngredient) => ({
         payload: { ...ingredient, id: nanoid() }
@@ -70,7 +69,6 @@ const burgerIngredientsSlice = createSlice({
     },
 
     updateElementPosition: (state, action) => {
-      console.log(action);
       const element = state.basket.ingredients.find(
         (ingredient) => ingredient._id === action.payload.element._id
       );
