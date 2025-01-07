@@ -101,6 +101,7 @@ const authorizationSlice = createSlice({
         }
       })
       .addCase(getUser.fulfilled, (state, action) => {
+        console.log(action);
         state.isAuthChecked = true;
         state.isAuthenticated = true;
         state.loginUserError = null;

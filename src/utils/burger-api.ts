@@ -76,6 +76,7 @@ export const getIngredientsApi = () =>
     .then((res) => checkResponse<TIngredientsResponse>(res))
     .then((data) => {
       if (data?.success) {
+        console.log(data);
         return data.data;
       }
       return Promise.reject(data);
@@ -117,6 +118,7 @@ export const orderBurgerApi = (data: string[]) =>
       ingredients: data
     })
   }).then((data) => {
+    console.log(data);
     if (data?.success) return data;
     return Promise.reject(data);
   });

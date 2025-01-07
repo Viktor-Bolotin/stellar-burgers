@@ -106,7 +106,6 @@ const burgerIngredientsSlice = createSlice({
         }
       })
       .addCase(getIngredients.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.isIngredientsLoading = false;
         state.ingredientsError = null;
         state.ingredients = action.payload;
