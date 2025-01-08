@@ -1,19 +1,9 @@
-import { register } from "module";
+import { initialState } from "../src/services/slices/authorizationSlice";
 import { describe } from "node:test";
 import authorizationReducer, {getUser, loginUser, logoutUser, registerUser, TAutorizationInitialState, updateUser} from '../src/services/slices/authorizationSlice'
 import { getCookie } from "../src/utils/cookie";
 
 describe('Обработка экшенов authorizationSlice',() => {
-  const initialState: TAutorizationInitialState = {
-    isAuthChecked: false,
-    isAuthenticated: false,
-    user: {
-      name: '',
-      email: ''
-    },
-    loginUserError: null
-  };
-
   const errorExpectedData = {
     message: 'Error'
   }

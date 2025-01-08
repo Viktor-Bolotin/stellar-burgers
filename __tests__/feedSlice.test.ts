@@ -1,16 +1,8 @@
 import { describe } from "node:test";
 import feedReducer, {getFeeds, TFeedSliceInitialState} from '../src/services/slices/feedSlice'
+import { initialState } from "../src/services/slices/feedSlice";
 
 describe('обработка экшенов FeedSlice', () => {
-  const initialState: TFeedSliceInitialState = {
-    feeds: {
-      orders: [],
-      total: 0,
-      totalToday: 0
-    },
-    feedLoading: false,
-    feedError: null
-  };
 
   it('При вызове экшена getFeeds.pending, state.orderRequest принимает значение true', () => {
     const action = { type: getFeeds.pending.type }

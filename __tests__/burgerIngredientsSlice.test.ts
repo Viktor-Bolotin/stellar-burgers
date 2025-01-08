@@ -1,17 +1,7 @@
-import { nanoid } from '@reduxjs/toolkit';
+import { initialState } from '../src/services/slices/burgerIngredientsSlice'
 import ingredientsReducer, {addIngredient, getIngredients, removeIngredient, TInitialIngredientsState, updateElementPosition} from '../src/services/slices/burgerIngredientsSlice'
 
 describe('Обработка экшенов burgerIngredientsSlice', () => {
-  const initialState: TInitialIngredientsState = {
-    ingredients: [],
-    isIngredientsLoading: false,
-    ingredientsError: null,
-    basket: {
-      ingredients: [],
-      sum: 0
-    }
-  };
-
   const expectedIngredients = [
     {
       "_id": "643d69a5c3f7b9001cfa093c",
@@ -71,16 +61,8 @@ describe('Обработка экшенов burgerIngredientsSlice', () => {
     }]
 
     const initialBasketIngredients = [expectedIngredients[1], expectedIngredients[2], expectedIngredients[3]]
-    const initialStateBasket = {
-      ingredients: [],
-      isIngredientsLoading: false,
-      ingredientsError: null,
-      basket: {
-        bun: expectedIngredients[0],
-        ingredients: initialBasketIngredients,
-        sum: 0
-      } 
-    }
+    const initialStateBasket = initialState
+    initialStateBasket.basket.ingredients = initialBasketIngredients
 
 
   describe('Обработка асинхронных экшенов',() => {

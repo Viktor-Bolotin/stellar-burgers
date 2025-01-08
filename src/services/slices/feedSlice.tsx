@@ -10,7 +10,7 @@ export type TFeedSliceInitialState = {
   feedError: string | null;
 };
 
-const initialState: TFeedSliceInitialState = {
+export const initialState: TFeedSliceInitialState = {
   feeds: {
     orders: [],
     total: 0,
