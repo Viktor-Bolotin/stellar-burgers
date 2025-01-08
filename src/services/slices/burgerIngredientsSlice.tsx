@@ -20,7 +20,7 @@ export type TInitialIngredientsState = {
   basket: TBasket;
 };
 
-const initialState: TInitialIngredientsState = {
+export const initialState: TInitialIngredientsState = {
   ingredients: [],
   isIngredientsLoading: false,
   ingredientsError: null,

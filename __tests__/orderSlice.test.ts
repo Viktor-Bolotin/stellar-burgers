@@ -1,17 +1,8 @@
 import { describe } from "node:test";
 import orderReducer, {getOrders, makeOrder, TOrderInitialState} from '../src/services/slices/orderSlice';
+import { initialState } from "../src/services/slices/orderSlice";
 
 describe('Обработка экшенов orderSlice', () => {
-  
-  const initialState: TOrderInitialState = {
-    orderRequest: false,
-    orderError: null,
-    orderModalData: null,
-    orderList: [],
-    loadingOrderList: false,
-    errorOrderList: null
-  };
-
   const orderErrorExpectedData = {
     message: 'Error'
   }

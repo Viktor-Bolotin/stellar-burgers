@@ -30,7 +30,7 @@ export type TAutorizationInitialState = {
   loginUserError: string | null;
 };
 
-const initialState: TAutorizationInitialState = {
+export const initialState: TAutorizationInitialState = {
   isAuthChecked: false,
   isAuthenticated: false,
   user: {
